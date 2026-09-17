@@ -30,15 +30,25 @@ const SURVEY_ID = process.env.QUALTRICS_SURVEY_ID;
 
 const isConfigured = Boolean(DATACENTER && API_TOKEN && SURVEY_ID);
 
+// System metadata columns use Qualtrics's own camelCase ImportIds (the
+// same ones a real Qualtrics response export uses); embedded data columns
+// use the field's own name as its ImportId (confirmed above).
 const COLUMNS = [
-  'EPA_Title',
-  'Entrustment_Level',
-  'Learner_Name',
-  'Evaluator_Name',
-  'Gestational_Age',
-  'Care_Location',
-  'Feedback_Text',
-  'Response_Id',
+  { field: 'StartDate', importId: 'startDate' },
+  { field: 'EndDate', importId: 'endDate' },
+  { field: 'Status', importId: 'status' },
+  { field: 'Progress', importId: 'progress' },
+  { field: 'Duration (in seconds)', importId: 'duration' },
+  { field: 'Finished', importId: 'finished' },
+  { field: 'RecordedDate', importId: 'recordedDate' },
+  { field: 'EPA_Title', importId: 'EPA_Title' },
+  { field: 'Entrustment_Level', importId: 'Entrustment_Level' },
+  { field: 'Learner_Name', importId: 'Learner_Name' },
+  { field: 'Evaluator_Name', importId: 'Evaluator_Name' },
+  { field: 'Gestational_Age', importId: 'Gestational_Age' },
+  { field: 'Care_Location', importId: 'Care_Location' },
+  { field: 'Feedback_Text', importId: 'Feedback_Text' },
+  { field: 'Response_Id', importId: 'Response_Id' },
 ];
 
 function csvEscape(value) {
@@ -53,11 +63,11 @@ function csvRow(values) {
   return values.map(csvEscape).join(',') + '\r\n';
 }
 
-function buildImportCsv(embeddedData) {
-  const header1 = csvRow(COLUMNS);
-  const header2 = csvRow(COLUMNS);
-  const header3 = csvRow(COLUMNS.map((field) => JSON.stringify({ ImportId: field })));
-  const dataRow = csvRow(COLUMNS.map((field) => embeddedData[field]));
+function buildImportCsv(rowValues) {
+  const header1 = csvRow(COLUMNS.map((c) => c.field));
+  const header2 = csvRow(COLUMNS.map((c) => c.field));
+  const header3 = csvRow(COLUMNS.map((c) => JSON.stringify({ ImportId: c.importId })));
+  const dataRow = csvRow(COLUMNS.map((c) => rowValues[c.field]));
   return header1 + header2 + header3 + dataRow;
 }
 
@@ -65,8 +75,8 @@ function baseUrl() {
   return `https://${DATACENTER}.qualtrics.com/API/v3/surveys/${SURVEY_ID}/import-responses`;
 }
 
-async function startImportJob(embeddedData) {
-  const csv = buildImportCsv(embeddedData);
+async function startImportJob(rowValues) {
+  const csv = buildImportCsv(rowValues);
   console.log('Qualtrics push target URL:', baseUrl());
   console.log('Qualtrics push payload (CSV):', csv);
 
@@ -118,7 +128,14 @@ async function pollImportJob(progressId, { attempts = 10, delayMs = 1000 } = {})
 async function pushResponseToQualtrics(row) {
   if (!isConfigured) return;
 
-  const embeddedData = {
+  const rowValues = {
+    StartDate: row.StartDate,
+    EndDate: row.EndDate,
+    Status: 0,
+    Progress: 100,
+    'Duration (in seconds)': 0,
+    Finished: 'True',
+    RecordedDate: row.RecordedDate,
     EPA_Title: row.EPA_Title,
     Entrustment_Level: row.Entrustment_Level,
     Learner_Name: row.Learner_Name,
@@ -129,7 +146,7 @@ async function pushResponseToQualtrics(row) {
     Response_Id: row.ResponseId,
   };
 
-  const progressId = await startImportJob(embeddedData);
+  const progressId = await startImportJob(rowValues);
   await pollImportJob(progressId);
 }
 

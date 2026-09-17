@@ -112,6 +112,19 @@ name**: rename that Embedded Data field to `Care_Location` in Survey
 Flow (existing responses keep their data; new ones will populate the
 renamed field).
 
+**If the logs say the push succeeded but no response shows up in
+Qualtrics at all**: the import job's status check only reports whether
+the job itself finished, not whether Qualtrics actually accepted the
+row — a row can be silently dropped with no error surfaced anywhere.
+The CSV now includes the standard system columns every real Qualtrics
+response has (`StartDate`, `EndDate`, `Status`, `Progress`, `Duration`,
+`Finished`, `RecordedDate`), which earlier versions omitted; that's the
+most likely reason a row was getting discarded. While checking this,
+also confirm in Qualtrics's **Data & Analysis** tab that no response
+filter is hiding it (clear any active filter) and that the response
+count at the top of the table changed at all after your test
+submission.
+
 **Troubleshooting history, in case you see old symptoms after not
 redeploying for a while:**
 - *A response was created in Qualtrics but every field was blank*, or
