@@ -8,6 +8,12 @@ services:
     envVars:
       - key: RESPONSES_DIR
         value: /var/data
+      - key: QUALTRICS_DATACENTER
+        sync: false
+      - key: QUALTRICS_API_TOKEN
+        sync: false
+      - key: QUALTRICS_SURVEY_ID
+        sync: false
     disk:
       name: epa-feedback-data
       mountPath: /var/data

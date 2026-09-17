@@ -38,15 +38,68 @@ before submitting.
 
 ## Data storage and export
 
-Every submission is appended as a row to `data/responses.csv` on the
-server. That file uses the same 3-row header structure as a Qualtrics
-"legacy" CSV export (field names / question text / `ImportId` metadata), so
-it can be re-imported into Qualtrics as response data, or opened directly
-in Excel/Google Sheets/Numbers.
+Every submission is always appended as a row to `data/responses.csv` (or
+wherever `RESPONSES_DIR` points, see below) — this is a local backup that
+exists regardless of whether Qualtrics auto-upload is configured. That
+file uses the same 3-row header structure as a Qualtrics "legacy" CSV
+export (field names / question text / `ImportId` metadata), so it can be
+re-imported into Qualtrics as response data, or opened directly in
+Excel/Google Sheets/Numbers.
 
 Click "Download all feedback (CSV)" on the page (or visit `/api/export`) to
-download the current file at any time. The file lives only on the machine
-running the server — nothing is sent anywhere else.
+download the current file at any time.
+
+## Automatic upload to Qualtrics
+
+When the three environment variables below are set, every submission is
+also pushed live into a Qualtrics survey via Qualtrics's Response Import
+API, in addition to the local CSV backup above. If the push fails for any
+reason (bad credentials, network issue, survey misconfigured), the error is
+logged server-side and the submission is still safely in the local CSV —
+nothing is lost.
+
+**1. Set up the receiving survey in Qualtrics**
+
+- Create a survey in Qualtrics (or use an existing one) to act as the data
+  store. It doesn't need real questions — it's just a place to collect
+  the embedded data.
+- Open **Survey Flow**, add an **Embedded Data** element (near the top),
+  and add these exact field names:
+  `EPA_Title`, `Entrustment_Level`, `Learner_Name`, `Evaluator_Name`,
+  `Gestational_Age`, `Location`, `Feedback_Text`, `Response_Id`.
+- Publish the survey.
+
+**2. Gather three values from your Qualtrics account**
+
+- **API token**: account icon (top right) → **Account Settings** →
+  **Qualtrics IDs** tab → generate/copy your **API Token**.
+- **Datacenter ID**: same **Qualtrics IDs** page, listed under the API
+  section (e.g. `iad1`, `syd1`, `fra1`) — also visible as the subdomain
+  when you're logged into Qualtrics (`https://<datacenter>.qualtrics.com`).
+- **Survey ID**: on the **Qualtrics IDs** page, or in the survey's URL
+  while editing it — starts with `SV_`.
+
+**3. Set them as environment variables**
+
+- **Locally**: `export QUALTRICS_DATACENTER=... QUALTRICS_API_TOKEN=... QUALTRICS_SURVEY_ID=...`
+  before `npm start` (never commit these to git).
+- **On Render**: the `render.yaml` Blueprint declares these three as
+  secret env vars — Render prompts you to enter them when you apply the
+  Blueprint, or set/update them anytime under the service's
+  **Environment** tab. No redeploy is needed to pick up a changed value.
+
+**4. Verify it**
+
+Submit a piece of test feedback through the app, then check:
+- The service logs (Render dashboard → **Logs**) for either
+  `Pushed R_... to Qualtrics.` or a `Qualtrics push failed for R_...`
+  error with details.
+- Your Qualtrics survey's **Data & Analysis** tab for the new response.
+
+If it fails, send me the logged error and I'll adjust the integration —
+I built this against Qualtrics's documented Import Responses API but
+couldn't test it live from this environment (its network policy blocks
+`api.qualtrics.com`), so a first real test after deploying is worth doing.
 
 ## Deploying to Render
 
