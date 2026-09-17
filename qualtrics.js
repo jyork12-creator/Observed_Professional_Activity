@@ -114,7 +114,10 @@ async function pollImportJob(progressId, { attempts = 10, delayMs = 1000 } = {})
     }
 
     const status = data?.result?.status;
-    if (status === 'complete') return;
+    if (status === 'complete') {
+      console.log(`Qualtrics import job complete: ${JSON.stringify(data.result)}`);
+      return;
+    }
     if (status === 'failed') {
       throw new Error(`Qualtrics import job failed: ${JSON.stringify(data.result)}`);
     }
