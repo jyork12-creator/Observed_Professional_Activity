@@ -14,6 +14,8 @@ services:
         sync: false
       - key: QUALTRICS_SURVEY_ID
         sync: false
+      - key: EXPORT_PASSWORD
+        sync: false
     disk:
       name: epa-feedback-data
       mountPath: /var/data

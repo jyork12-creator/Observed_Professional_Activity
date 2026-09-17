@@ -49,6 +49,22 @@ Excel/Google Sheets/Numbers.
 Click "Download all feedback (CSV)" on the page (or visit `/api/export`) to
 download the current file at any time.
 
+### Password-protecting the download
+
+Set the `EXPORT_PASSWORD` environment variable to require a password
+before the CSV can be downloaded. Submitting feedback stays open to
+evaluators either way — only `/api/export` is gated. When it's set, the
+browser will show its normal login popup the first time someone clicks
+"Download all feedback (CSV)" (any username works; only the password is
+checked). If `EXPORT_PASSWORD` isn't set, the download stays open —
+useful for local dev, but set it before deploying anywhere reachable by
+others.
+
+- **Locally**: `export EXPORT_PASSWORD='...'` before `npm start`.
+- **On Render**: service dashboard → **Environment** tab → add
+  `EXPORT_PASSWORD` with your chosen value (it's also declared as a
+  secret in `render.yaml`, so applying the Blueprint prompts for it too).
+
 ## Automatic upload to Qualtrics
 
 When the three environment variables below are set, every submission is

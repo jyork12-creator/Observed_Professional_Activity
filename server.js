@@ -15,6 +15,28 @@ const RESPONSES_DIR = process.env.RESPONSES_DIR || path.join(__dirname, 'data');
 const RESPONSES_FILE = path.join(RESPONSES_DIR, 'responses.csv');
 fs.mkdirSync(RESPONSES_DIR, { recursive: true });
 
+// Gates only the CSV download, so submitting feedback stays password-free
+// for evaluators. If EXPORT_PASSWORD isn't set, the download stays open
+// (useful for local dev) -- set it in production to actually protect it.
+const EXPORT_PASSWORD = process.env.EXPORT_PASSWORD;
+
+function requireExportPassword(req, res, next) {
+  if (!EXPORT_PASSWORD) return next();
+
+  const authHeader = req.headers.authorization || '';
+  const match = authHeader.match(/^Basic (.+)$/);
+  const suppliedPassword = match ? Buffer.from(match[1], 'base64').toString('utf8').split(':').slice(1).join(':') : '';
+
+  const expected = Buffer.from(EXPORT_PASSWORD);
+  const supplied = Buffer.from(suppliedPassword);
+  const isMatch = expected.length === supplied.length && crypto.timingSafeEqual(expected, supplied);
+
+  if (isMatch) return next();
+
+  res.set('WWW-Authenticate', 'Basic realm="EPA feedback export"');
+  res.status(401).send('Password required to download this file.');
+}
+
 // Column definitions mirror a Qualtrics legacy CSV export: row 1 is the
 // field/column name, row 2 is the question text, row 3 is the ImportId
 // metadata Qualtrics uses to re-map columns on import.
@@ -112,7 +134,7 @@ app.post('/api/feedback', (req, res) => {
   res.status(201).json({ ok: true, responseId: row.ResponseId, qualtricsConfigured });
 });
 
-app.get('/api/export', (req, res) => {
+app.get('/api/export', requireExportPassword, (req, res) => {
   ensureResponsesFile();
   const date = new Date().toISOString().slice(0, 10);
   res.setHeader('Content-Disposition', `attachment; filename="epa_feedback_export_${date}.csv"`);
@@ -126,5 +148,10 @@ app.listen(PORT, () => {
     qualtricsConfigured
       ? `Qualtrics auto-upload is configured; submissions will be pushed to: ${getTargetUrl()}`
       : 'Qualtrics auto-upload is NOT configured (missing QUALTRICS_DATACENTER / QUALTRICS_API_TOKEN / QUALTRICS_SURVEY_ID); submissions will only be saved locally.'
+  );
+  console.log(
+    EXPORT_PASSWORD
+      ? 'CSV download (/api/export) is password-protected.'
+      : 'CSV download (/api/export) is NOT password-protected (EXPORT_PASSWORD is not set).'
   );
 });
