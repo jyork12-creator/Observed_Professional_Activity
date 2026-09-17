@@ -98,8 +98,8 @@ nothing is lost.
 
 Submit a piece of test feedback through the app, then check:
 - The service logs (Render dashboard → **Logs**) for a
-  `Qualtrics push payload: {...}` line (the exact data sent) followed by
-  either `Pushed R_... to Qualtrics.` or a `Qualtrics push failed for
+  `Qualtrics push payload (CSV): ...` block (the exact data sent) followed
+  by either `Pushed R_... to Qualtrics.` or a `Qualtrics push failed for
   R_...` error with details.
 - Your Qualtrics survey's **Data & Analysis** tab for the new response —
   compare each field there against the logged payload. If a field is
@@ -112,11 +112,19 @@ name**: rename that Embedded Data field to `Care_Location` in Survey
 Flow (existing responses keep their data; new ones will populate the
 renamed field).
 
-**If a response was created in Qualtrics but every field was blank**:
-that was a bug in an earlier version of this integration (embedded data
-was nested inside `values` instead of its own top-level `embeddedData`
-key, so Qualtrics silently ignored all of it) — fixed now. Pull the
-latest code and redeploy, then submit a fresh test entry.
+**Troubleshooting history, in case you see old symptoms after not
+redeploying for a while:**
+- *A response was created in Qualtrics but every field was blank*, or
+  the push failed with `QINV_11.1: Invalid request body or Content-Type
+  provided` — both were caused by earlier versions of this integration
+  sending JSON to an endpoint that only accepts an actual CSV/TSV file
+  as the request body (no JSON format, no multipart wrapper) — fixed
+  now by sending a real 3-header-row CSV directly as the POST body with
+  `Content-Type: text/csv`. If you saw the "blank response" symptom,
+  it's likely that response wasn't from this integration at all (it
+  never successfully imported anything under either older version) —
+  it may be worth deleting stray test responses from the survey once
+  the fixed version is confirmed working.
 
 If it fails, send me the logged error and I'll adjust the integration —
 I built this against Qualtrics's documented Import Responses API but

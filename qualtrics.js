@@ -1,13 +1,24 @@
 // Pushes a single response into a Qualtrics survey using Qualtrics's
-// "Response Import" API: https://api.qualtrics.com/ (Import Responses).
-// That API is file-upload + async-job based (there is no simple
-// single-response "create" endpoint), so each push starts a job with a
-// one-row JSON file, then polls until Qualtrics reports it complete.
+// "Start Response Import" API. Confirmed against Qualtrics's own
+// auto-generated API client (via the qualtrics-utils PyPI package, whose
+// client is generated from Qualtrics's published OpenAPI spec) after an
+// earlier version of this file guessed wrong:
+//
+//   - This endpoint only imports a CSV or TSV FILE. There is no JSON body
+//     format for response data itself.
+//   - For a file you have locally (not hosted at a public URL), you send
+//     the raw file bytes directly as the POST body with
+//     Content-Type: text/csv (or text/tab-separated-values) — NOT
+//     multipart/form-data, and NOT wrapped in JSON.
+//   - Files use the same 3-header-row format as a normal Qualtrics
+//     export: row 1 is the field name, row 2 is the question text, row 3
+//     is {"ImportId":"..."}. For embedded data (as opposed to real
+//     survey questions), the ImportId is just the field's own name.
 //
 // The target survey must have an Embedded Data element (Survey Flow) with
-// these exact field names, or Qualtrics will silently ignore unknown
-// fields: EPA_Title, Entrustment_Level, Learner_Name, Evaluator_Name,
-// Gestational_Age, Care_Location, Feedback_Text, Response_Id.
+// these exact field names: EPA_Title, Entrustment_Level, Learner_Name,
+// Evaluator_Name, Gestational_Age, Care_Location, Feedback_Text,
+// Response_Id.
 //
 // Note: the field is named Care_Location (not "Location") to avoid
 // colliding with Qualtrics's own reserved location-tracking metadata,
@@ -19,30 +30,53 @@ const SURVEY_ID = process.env.QUALTRICS_SURVEY_ID;
 
 const isConfigured = Boolean(DATACENTER && API_TOKEN && SURVEY_ID);
 
+const COLUMNS = [
+  'EPA_Title',
+  'Entrustment_Level',
+  'Learner_Name',
+  'Evaluator_Name',
+  'Gestational_Age',
+  'Care_Location',
+  'Feedback_Text',
+  'Response_Id',
+];
+
+function csvEscape(value) {
+  const str = value === undefined || value === null ? '' : String(value);
+  if (/[",\n\r]/.test(str)) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
+function csvRow(values) {
+  return values.map(csvEscape).join(',') + '\r\n';
+}
+
+function buildImportCsv(embeddedData) {
+  const header1 = csvRow(COLUMNS);
+  const header2 = csvRow(COLUMNS);
+  const header3 = csvRow(COLUMNS.map((field) => JSON.stringify({ ImportId: field })));
+  const dataRow = csvRow(COLUMNS.map((field) => embeddedData[field]));
+  return header1 + header2 + header3 + dataRow;
+}
+
 function baseUrl() {
   return `https://${DATACENTER}.qualtrics.com/API/v3/surveys/${SURVEY_ID}/import-responses`;
 }
 
 async function startImportJob(embeddedData) {
-  const fileContents = JSON.stringify({
-    responses: [
-      {
-        values: { finished: 1 },
-        embeddedData,
-      },
-    ],
-  });
-
-  console.log('Qualtrics push payload:', fileContents);
-
-  const form = new FormData();
-  form.append('file', new Blob([fileContents], { type: 'application/json' }), 'response.json');
-  form.append('fileType', 'json');
+  const csv = buildImportCsv(embeddedData);
+  console.log('Qualtrics push payload (CSV):', csv);
 
   const res = await fetch(baseUrl(), {
     method: 'POST',
-    headers: { 'X-API-TOKEN': API_TOKEN },
-    body: form,
+    headers: {
+      'X-API-TOKEN': API_TOKEN,
+      'Content-Type': 'text/csv',
+      charset: 'UTF-8',
+    },
+    body: csv,
   });
 
   const data = await res.json().catch(() => ({}));
@@ -51,7 +85,7 @@ async function startImportJob(embeddedData) {
     throw new Error(`Qualtrics import start failed (${res.status}): ${JSON.stringify(data)}`);
   }
 
-  const progressId = data?.result?.progressId || data?.result?.id;
+  const progressId = data?.result?.progressId;
   if (!progressId) {
     throw new Error(`Qualtrics import start returned no progressId: ${JSON.stringify(data)}`);
   }
