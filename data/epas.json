@@ -1,15 +1,202 @@
 [
   {
-    "id": "generic",
-    "title": "Sample EPA (edit me)",
-    "description": "Replace this with the actual Entrustable Professional Activity you are assessing — e.g. its title, the clinical/professional task it covers, and the context in which it is observed (setting, patient population, typical complexity). Everything in this file (data/epas.json) is meant to be edited to match your own program's EPAs; you can add as many EPA entries to this array as you need.",
+    "id": "managing-patients-with-acute-common-single-system-diseases-in-an-inpatient-setting",
+    "title": "Managing patients with acute, common single-system diseases in an inpatient setting",
+    "category": "Neonatal-Perinatal Medicine",
+    "description": "Work up and manage a common, single-system problem in a hospitalized neonate or infant, from evaluation through follow-up planning.",
+    "definingFunctions": [
+      "Gather essential information through history, exam, and judicious labs and imaging.",
+      "Develop a prioritized differential that drives the right diagnostic tests.",
+      "Know and acquire the evidence for the primary problem, accounting for gestational age.",
+      "Build a plan covering the primary problem, level of care, discharge criteria, and follow-up."
+    ],
     "levels": {
-      "1": "Learner may observe the activity only. Does not perform any part of the task hands-on, even with a supervisor directly present and guiding every step.",
-      "2": "Learner performs the activity with a supervisor physically present in the room, actively directing and coaching through each step in real time (direct supervision).",
-      "3a": "Learner performs the activity with a supervisor immediately available nearby (not necessarily in the room) who proactively checks in at key points (indirect supervision, supervisor proactively engaged).",
-      "3b": "Learner performs the activity with a supervisor available on request (e.g. by phone or page) but not proactively checking in; supervisor is reactively available if the learner asks (indirect supervision, supervisor reactively available).",
-      "4": "Learner performs the activity independently, without a supervisor needing to be immediately available (unsupervised practice).",
-      "5": "Learner is entrusted to supervise or teach more junior learners performing the activity, and can recognize when others need to be pulled back to a lower level of supervision."
+      "1": "Observes the workup of single-system problems. Cannot yet gather a focused history and exam or frame a differential without the team interpreting the data.",
+      "2": "Gathers data and proposes a differential and plan with the attending guiding at the bedside, prompting on which labs and imaging are truly needed and reordering the diagnostic priorities.",
+      "3a": "Independently works up routine single-system problems with the attending in the unit, who confirms test selection, the working diagnosis, or the discharge and follow-up plan before it is enacted. Plans are reviewed with the attending in the moment rather than after they are enacted.",
+      "3b": "Manages common single-system cases start to finish, calling the attending for atypical presentations or when the course deviates from expected; plans are reviewed after the fact rather than beforehand.",
+      "4": "Independently gathers data, prioritizes the differential, applies gestational-age-appropriate evidence, and finalizes management, level of care, discharge criteria, and follow-up across the range of common problems.",
+      "5": "Performs independently and coaches junior learners on judicious testing, differential prioritization, and building a defensible discharge and follow-up plan."
+    }
+  },
+  {
+    "id": "managing-patients-with-complex-diseases-in-the-nicu",
+    "title": "Managing patients with complex diseases in the NICU",
+    "category": "Neonatal-Perinatal Medicine",
+    "description": "Manage infants with complex, multisystem disease in the NICU, including coordinating the team, managing uncertainty, and delivering difficult news.",
+    "definingFunctions": [
+      "Build a multisystem plan addressing the primary problem, anticipated comorbidities, and case-management needs.",
+      "Coordinate care across the interdisciplinary team and reconcile disparate opinions.",
+      "Manage uncertainty as a team, with families, and personally.",
+      "Deliver bad news effectively and compassionately, tailored to the family."
+    ],
+    "levels": {
+      "1": "Observes the care of complex, multisystem patients. Cannot yet integrate multiple problems into a coherent plan or contribute to team coordination.",
+      "2": "Builds pieces of the plan with the attending structuring the multisystem assessment, naming anticipated comorbidities, and leading family and team communication.",
+      "3a": "Leads the plan for complex patients with the attending in the unit, who confirms the integration of comorbidities and case-management needs and joins high-stakes family conversations and bad-news delivery.",
+      "3b": "Manages stable complex patients and routine updates independently, reviewing prognostic uncertainty, difficult conversations, and bad-news delivery with the attending beforehand.",
+      "4": "Independently develops and adjusts the multisystem plan, reconciles disparate consultant opinions, manages uncertainty with team and family, and delivers bad news compassionately.",
+      "5": "Performs independently and mentors juniors on synthesizing multisystem plans, running interdisciplinary coordination, and leading difficult family conversations."
+    }
+  },
+  {
+    "id": "collaborating-with-surgeons-to-manage-patients-with-surgical-problems-in-the-nicu",
+    "title": "Collaborating with surgeons to manage patients with surgical problems in the NICU",
+    "category": "Neonatal-Perinatal Medicine",
+    "description": "Co-manage neonates with surgical problems across the perioperative course in partnership with surgery and anesthesia.",
+    "definingFunctions": [
+      "Recognize surgical indications, the limits of medical management, and optimal timing of transfer.",
+      "Provide pre-, intra-, and postoperative stabilization, including nutrition, cardiopulmonary, and analgesic management.",
+      "Communicate directly with anesthesia and the surgical team.",
+      "Provide continuity so patients, families, and the team understand diagnosis, management, and follow-up."
+    ],
+    "levels": {
+      "1": "Observes surgical co-management. Cannot yet recognize when a problem has become surgical or anticipate perioperative needs.",
+      "2": "Participates in perioperative management with the attending directing recognition of surgical indications, stabilization, and communication with surgery and anesthesia.",
+      "3a": "Co-manages surgical patients with the attending immediately available, who confirms the timing of surgical involvement or transfer and the perioperative stabilization plan.",
+      "3b": "Manages routine perioperative courses and surgical communication independently, calling the attending when the indication, timing, or postoperative course is unclear.",
+      "4": "Independently recognizes surgical indications and their limits, times transfer appropriately, leads perioperative stabilization, and coordinates directly with surgery and anesthesia.",
+      "5": "Performs independently and teaches juniors to recognize surgical disease, anticipate perioperative needs, and communicate across teams."
+    }
+  },
+  {
+    "id": "resuscitating-and-stabilizing-neonates-and-infants-tailored-to-severity-of-illness",
+    "title": "Resuscitating and stabilizing neonates and infants tailored to severity of illness",
+    "category": "Neonatal-Perinatal Medicine",
+    "description": "Anticipate, lead, and debrief resuscitation and stabilization tailored to the infant's severity of illness.",
+    "definingFunctions": [
+      "Anticipate and recognize infants requiring resuscitation and counsel at-risk parents before and after delivery.",
+      "Demonstrate effective resuscitation using guidelines appropriate to the patient and setting.",
+      "Act expeditiously, especially for airway management and vascular access.",
+      "Lead the team before, during, and after, including self-reflection and debriefs."
+    ],
+    "levels": {
+      "1": "Observes resuscitations. Cannot yet anticipate which deliveries are high-risk or sequence the resuscitation algorithm.",
+      "2": "Performs resuscitation with the attending calling each step and correcting technique on positive-pressure ventilation, rate, and escalation.",
+      "3a": "Leads routine resuscitation and stabilization with the attending at the warmer, who confirms airway placement, vascular access, and escalation decisions.",
+      "3b": "Independently leads and stabilizes for anticipated-risk deliveries, calling the attending for unexpected courses or failed airways; the case is reviewed afterward.",
+      "4": "Independently anticipates, leads, and stabilizes across gestational ages and acuity, prioritizes airway and access under time pressure, counsels families, and runs the debrief.",
+      "5": "Leads resuscitation while coaching junior team members through their roles and facilitates debriefs to improve future performance."
+    }
+  },
+  {
+    "id": "managing-neonatal-care-systems",
+    "title": "Managing neonatal care systems",
+    "category": "Neonatal-Perinatal Medicine",
+    "description": "Run the NICU as a system: triage, resource allocation, delegation, and communication under changing acuity.",
+    "definingFunctions": [
+      "Assess a NICU system with changing acuity and census and anticipate sudden changes.",
+      "Prioritize distribution of resources (transport, beds, clinicians) to the highest-acuity needs.",
+      "Build a triage plan weighing patient needs, personnel, care environments, and family support.",
+      "Delegate appropriately, recognize limits, and communicate succinctly."
+    ],
+    "levels": {
+      "1": "Observes unit-level flow and triage. Cannot yet see the system beyond the individual patient.",
+      "2": "Contributes to triage and resource decisions with the attending actively directing prioritization, delegation, and communication.",
+      "3a": "Manages routine unit flow with the attending immediately available, who confirms triage priorities and resource allocation before major moves such as transfers, transport, or staffing changes.",
+      "3b": "Runs the unit for typical acuity independently, calling the attending when census surges, acuity spikes, or resources fall short.",
+      "4": "Independently assesses the system, anticipates sudden changes, prioritizes transport, beds, and clinicians, delegates appropriately, and communicates succinctly under pressure.",
+      "5": "Manages the system independently and develops junior learners' situational awareness, triage judgment, and delegation."
+    }
+  },
+  {
+    "id": "executing-clinical-handovers-within-or-across-settings",
+    "title": "Executing clinical handovers within or across settings",
+    "category": "Common Subspecialty EPA",
+    "description": "Give and receive clinical handovers using a structured approach that prevents errors of omission.",
+    "definingFunctions": [
+      "When handing over: review the record, use a structured tool, solicit questions, and convey preferences.",
+      "When receiving: summarize, ask questions to fill gaps, restate action items, and give feedback.",
+      "Use a structured, evidence-based approach or template.",
+      "Confirm shared understanding of contingencies and follow-up."
+    ],
+    "levels": {
+      "1": "Observes handovers. Handovers given are disorganized and omit key information; does not yet use a structured tool.",
+      "2": "Gives and receives handovers with the attending restructuring the content, prompting on omissions, and modeling closed-loop confirmation.",
+      "3a": "Runs structured handovers with the attending available, who spot-checks the written tool and confirms that action items and contingencies were conveyed.",
+      "3b": "Handles routine handovers independently using a consistent structure, escalating complex or high-risk transitions for review.",
+      "4": "Independently gives and receives handovers with a structured tool, conveys preferences and contingencies, and confirms shared understanding of action items.",
+      "5": "Performs independently and coaches juniors on structured handover technique, closed-loop communication, and giving feedback to the sender."
+    }
+  },
+  {
+    "id": "promoting-equitable-care-to-address-racism-and-other-contributors-to-health-inequities",
+    "title": "Promoting equitable care to address racism and other contributors to health inequities",
+    "category": "Common Subspecialty EPA",
+    "description": "Identify and act on drivers of inequity to provide equitable care at the individual and population level.",
+    "definingFunctions": [
+      "Identify patients and populations at risk for poor outcomes and the systemic factors behind them.",
+      "Honor families' social identities and how they shape the experience of care.",
+      "Employ strategies to mitigate interpersonal and structural bias.",
+      "Advocate for patients and populations and tailor communication to health literacy and language."
+    ],
+    "levels": {
+      "1": "Observes equity-related aspects of care. Does not yet recognize social drivers of health or how bias shapes care in specific cases.",
+      "2": "Addresses equity considerations when the attending points them out, with coaching on identifying at-risk patients, using interpreters, and tailoring communication.",
+      "3a": "Identifies social drivers and adapts care for routine cases with the attending available to confirm the approach to complex situations such as advocacy or mitigating bias.",
+      "3b": "Independently identifies at-risk patients and tailors communication and resources, escalating complex advocacy or systemic barriers for input.",
+      "4": "Independently identifies social drivers, mitigates interpersonal and structural bias, advocates for patients and populations, and consistently tailors communication to health literacy and preferred language.",
+      "5": "Models equitable care and teaches juniors to recognize social drivers, name and mitigate bias, and advocate effectively."
+    }
+  },
+  {
+    "id": "leading-interprofessional-teams-to-provide-collaborative-family-centered-care",
+    "title": "Leading interprofessional teams to provide collaborative, family-centered care",
+    "category": "Common Subspecialty EPA",
+    "description": "Lead an interprofessional team to deliver collaborative, family-centered care.",
+    "definingFunctions": [
+      "Engage team members, including families, in ways that respect and empower their roles.",
+      "Use evidence-based strategies to optimize team performance.",
+      "Supervise and teach to the needs of team members.",
+      "Seek and incorporate feedback with a commitment to improvement."
+    ],
+    "levels": {
+      "1": "Observes team leadership. Cannot yet engage the full interprofessional team or run collaborative decisions.",
+      "2": "Leads parts of the team with the attending modeling engagement, supervision, and how to fold family and staff input into the plan.",
+      "3a": "Leads the team for routine care with the attending available to confirm the approach to conflict, difficult dynamics, or complex family needs.",
+      "3b": "Runs the interprofessional team independently for stable situations, escalating conflict or high-stakes family decisions.",
+      "4": "Independently engages and supervises the team, uses evidence-based strategies for team performance, teaches to members' needs, and acts on feedback.",
+      "5": "Leads collaboratively and develops junior learners' team-leadership, supervision, and feedback skills."
+    }
+  },
+  {
+    "id": "providing-or-requesting-consultations",
+    "title": "Providing or requesting consultations",
+    "category": "Common Subspecialty EPA",
+    "description": "Provide or request consultations, matching involvement to the clinical question and communicating clearly.",
+    "definingFunctions": [
+      "Determine when consultation is indicated and apply relevant expertise.",
+      "Recognize personal limits and scope to know when added expertise or referral is needed.",
+      "Synthesize essential information into a clear impression and evidence-informed plan.",
+      "Set the level of ongoing involvement and communicate findings to the referring team and family."
+    ],
+    "levels": {
+      "1": "Observes the consultation process. Cannot yet judge when a consult is warranted or frame a clear clinical question.",
+      "2": "Requests or provides consults with the attending shaping the clinical question, the impression, and the communication back to the referring team.",
+      "3a": "Handles routine consults with the attending available to confirm the impression, the recommendations, and the level of ongoing involvement.",
+      "3b": "Manages straightforward consults independently, escalating complex or high-urgency ones for review.",
+      "4": "Independently determines when consultation is indicated, synthesizes a clear impression and plan, sets appropriate ongoing involvement, and communicates clearly with the referring team and family.",
+      "5": "Performs independently and teaches juniors to frame consult questions, apply scope-of-practice judgment, and communicate recommendations."
+    }
+  },
+  {
+    "id": "applying-principles-of-scholarship-to-support-practice-and-lifelong-learning",
+    "title": "Applying principles of scholarship to support practice and lifelong learning",
+    "category": "Common Subspecialty EPA",
+    "description": "Apply principles of scholarship to practice and lifelong learning across clinical, educational, QI, and advocacy work.",
+    "definingFunctions": [
+      "Understand the foundations of scholarly inquiry (questions, methods, interpreting results).",
+      "Identify, appraise, and interpret scholarly work, attending to quality, bias, and applicability.",
+      "Recognize scholarly ethics: authorship, data integrity, conflicts of interest, responsible conduct.",
+      "Apply and communicate scholarship across clinical care, education, systems improvement, and advocacy."
+    ],
+    "levels": {
+      "1": "Observes scholarly activity. Cannot yet critically appraise literature or connect evidence to practice.",
+      "2": "Engages in appraisal and scholarly work with the attending guiding question framing, critical appraisal, and interpretation.",
+      "3a": "Appraises and applies evidence for routine questions with the attending available to confirm methodology, interpretation, and applicability.",
+      "3b": "Independently appraises and applies literature to practice, escalating methodologically complex questions or high-stakes interpretation.",
+      "4": "Independently formulates questions, appraises evidence for quality and bias, applies it across clinical, educational, QI, and advocacy settings, and upholds scholarly ethics.",
+      "5": "Performs independently and mentors juniors in critical appraisal, responsible conduct of scholarship, and communicating scholarly work."
     }
   }
 ]

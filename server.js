@@ -26,6 +26,8 @@ const COLUMNS = [
   { field: 'Entrustment_Level', question: 'What entrustment level did the learner demonstrate?', importId: 'QID2' },
   { field: 'Learner_Name', question: 'Learner name / ID', importId: 'QID3' },
   { field: 'Evaluator_Name', question: 'Evaluator name', importId: 'QID4' },
+  { field: 'Gestational_Age', question: 'Gestational age', importId: 'QID6' },
+  { field: 'Location', question: 'Location', importId: 'QID7' },
   { field: 'Feedback_Text', question: 'Narrative feedback', importId: 'QID5' },
 ];
 
@@ -61,7 +63,7 @@ app.get('/api/epas', (req, res) => {
 });
 
 app.post('/api/feedback', (req, res) => {
-  const { epaTitle, level, learnerName, evaluatorName, feedbackText } = req.body || {};
+  const { epaTitle, level, learnerName, evaluatorName, gestationalAge, location, feedbackText } = req.body || {};
 
   if (!epaTitle || !level || !feedbackText || !feedbackText.trim()) {
     return res.status(400).json({ error: 'epaTitle, level, and feedbackText are required.' });
@@ -88,6 +90,8 @@ app.post('/api/feedback', (req, res) => {
     'Entrustment_Level': String(level),
     'Learner_Name': learnerName || '',
     'Evaluator_Name': evaluatorName || '',
+    'Gestational_Age': gestationalAge || '',
+    'Location': location || '',
     'Feedback_Text': feedbackText,
   };
 

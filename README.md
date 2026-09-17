@@ -1,11 +1,13 @@
 # EPA Observed Feedback
 
 A small local web app for recording feedback on an observed Entrustable
-Professional Activity (EPA). It shows what the EPA is and what each
-entrustment level (1, 2, 3a, 3b, 4, 5) looks like behaviorally, lets you type
-or dictate (voice-to-text) narrative feedback, and appends every submission
-to a CSV file formatted so it can be imported into Qualtrics — downloadable
-any time.
+Professional Activity (EPA). It ships with the ABP Neonatal-Perinatal
+Medicine EPAs (`data/epas.json`): each EPA's description, defining
+functions, and what each entrustment level (1, 2, 3a, 3b, 4, 5) looks like
+behaviorally. The feedback form captures the learner, evaluator,
+gestational age, and location alongside typed or dictated (voice-to-text)
+narrative feedback, and appends every submission to a CSV file formatted so
+it can be imported into Qualtrics — downloadable any time.
 
 ## Running it
 
@@ -19,12 +21,12 @@ voice-to-text — see below).
 
 ## Customizing the EPA(s) and level descriptions
 
-Edit `data/epas.json`. It's an array, so you can define more than one EPA;
-each entry needs an `id`, `title`, `description`, and a `levels` object with
-keys `"1"`, `"2"`, `"3a"`, `"3b"`, `"4"`, `"5"` describing what that
-entrustment level looks like behaviorally for that specific activity. The
-shipped entry is a generic placeholder based on the standard entrustment
-scale (Ten Cate) — replace it with your program's actual EPA text.
+Edit `data/epas.json`. It's an array of EPAs; each entry has an `id`,
+`title`, `category`, `description`, a `definingFunctions` array (the bullet
+list of core functions), and a `levels` object with keys `"1"`, `"2"`,
+`"3a"`, `"3b"`, `"4"`, `"5"` describing what that entrustment level looks
+like behaviorally for that specific activity. Add, remove, or edit entries
+to match your program's EPAs.
 
 ## Voice-to-text
 

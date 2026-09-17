@@ -18,7 +18,11 @@
       <label for="epa-select">EPA</label>
       <select id="epa-select"></select>
 
+      <div id="epa-category" class="category-badge"></div>
       <div id="epa-description" class="description"></div>
+
+      <h3>Defining functions</h3>
+      <ul id="epa-functions" class="functions-list"></ul>
 
       <h3>What each entrustment level looks like</h3>
       <div id="levels-table" class="levels-table"></div>
@@ -32,6 +36,17 @@
 
       <label for="evaluator-name">Your name (evaluator)</label>
       <input type="text" id="evaluator-name" placeholder="e.g. Dr. Smith">
+
+      <div class="two-col">
+        <div>
+          <label for="gestational-age">Gestational age</label>
+          <input type="text" id="gestational-age" placeholder="e.g. 28 weeks">
+        </div>
+        <div>
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="e.g. NICU, Delivery Room">
+        </div>
+      </div>
 
       <fieldset id="level-fieldset">
         <legend>Entrustment level observed</legend>

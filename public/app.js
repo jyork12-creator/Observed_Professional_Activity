@@ -3,7 +3,9 @@ const LEVEL_ORDER = ['1', '2', '3a', '3b', '4', '5'];
 let epas = [];
 
 const epaSelect = document.getElementById('epa-select');
+const epaCategory = document.getElementById('epa-category');
 const epaDescription = document.getElementById('epa-description');
+const epaFunctions = document.getElementById('epa-functions');
 const levelsTable = document.getElementById('levels-table');
 const feedbackText = document.getElementById('feedback-text');
 const voiceBtn = document.getElementById('voice-btn');
@@ -12,7 +14,16 @@ const submitBtn = document.getElementById('submit-btn');
 const submitStatus = document.getElementById('submit-status');
 
 function renderEpa(epa) {
+  epaCategory.textContent = epa.category || '';
   epaDescription.textContent = epa.description;
+
+  epaFunctions.innerHTML = '';
+  (epa.definingFunctions || []).forEach((fn) => {
+    const li = document.createElement('li');
+    li.textContent = fn;
+    epaFunctions.appendChild(li);
+  });
+
   levelsTable.innerHTML = '';
   LEVEL_ORDER.forEach((lvl) => {
     const row = document.createElement('div');
@@ -111,6 +122,8 @@ submitBtn.addEventListener('click', async () => {
   const levelInput = document.querySelector('input[name="level"]:checked');
   const learnerName = document.getElementById('learner-name').value.trim();
   const evaluatorName = document.getElementById('evaluator-name').value.trim();
+  const gestationalAge = document.getElementById('gestational-age').value.trim();
+  const location = document.getElementById('location').value.trim();
   const text = feedbackText.value.trim();
 
   if (!epa) {
@@ -138,6 +151,8 @@ submitBtn.addEventListener('click', async () => {
         level: levelInput.value,
         learnerName,
         evaluatorName,
+        gestationalAge,
+        location,
         feedbackText: text,
       }),
     });
@@ -150,6 +165,8 @@ submitBtn.addEventListener('click', async () => {
     submitStatus.textContent = 'Saved. You can download the CSV export below.';
     feedbackText.value = '';
     document.getElementById('learner-name').value = '';
+    document.getElementById('gestational-age').value = '';
+    document.getElementById('location').value = '';
     if (levelInput) levelInput.checked = false;
   } catch (e) {
     submitStatus.textContent = e.message;
