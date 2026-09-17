@@ -67,6 +67,7 @@ function baseUrl() {
 
 async function startImportJob(embeddedData) {
   const csv = buildImportCsv(embeddedData);
+  console.log('Qualtrics push target URL:', baseUrl());
   console.log('Qualtrics push payload (CSV):', csv);
 
   const res = await fetch(baseUrl(), {
@@ -132,4 +133,4 @@ async function pushResponseToQualtrics(row) {
   await pollImportJob(progressId);
 }
 
-module.exports = { pushResponseToQualtrics, isConfigured };
+module.exports = { pushResponseToQualtrics, isConfigured, getTargetUrl: baseUrl };

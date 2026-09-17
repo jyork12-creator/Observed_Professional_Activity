@@ -2,7 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { pushResponseToQualtrics, isConfigured: qualtricsConfigured } = require('./qualtrics');
+const { pushResponseToQualtrics, isConfigured: qualtricsConfigured, getTargetUrl } = require('./qualtrics');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -124,7 +124,7 @@ app.listen(PORT, () => {
   console.log(`EPA feedback app running at http://localhost:${PORT}`);
   console.log(
     qualtricsConfigured
-      ? 'Qualtrics auto-upload is configured; submissions will be pushed to Qualtrics.'
+      ? `Qualtrics auto-upload is configured; submissions will be pushed to: ${getTargetUrl()}`
       : 'Qualtrics auto-upload is NOT configured (missing QUALTRICS_DATACENTER / QUALTRICS_API_TOKEN / QUALTRICS_SURVEY_ID); submissions will only be saved locally.'
   );
 });
