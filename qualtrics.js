@@ -27,15 +27,13 @@ async function startImportJob(embeddedData) {
   const fileContents = JSON.stringify({
     responses: [
       {
-        values: {
-          finished: true,
-          ...embeddedData,
-        },
+        values: { finished: 1 },
+        embeddedData,
       },
     ],
   });
 
-  console.log('Qualtrics push payload:', JSON.stringify(embeddedData));
+  console.log('Qualtrics push payload:', fileContents);
 
   const form = new FormData();
   form.append('file', new Blob([fileContents], { type: 'application/json' }), 'response.json');

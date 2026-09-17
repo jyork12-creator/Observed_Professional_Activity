@@ -112,6 +112,12 @@ name**: rename that Embedded Data field to `Care_Location` in Survey
 Flow (existing responses keep their data; new ones will populate the
 renamed field).
 
+**If a response was created in Qualtrics but every field was blank**:
+that was a bug in an earlier version of this integration (embedded data
+was nested inside `values` instead of its own top-level `embeddedData`
+key, so Qualtrics silently ignored all of it) — fixed now. Pull the
+latest code and redeploy, then submit a fresh test entry.
+
 If it fails, send me the logged error and I'll adjust the integration —
 I built this against Qualtrics's documented Import Responses API but
 couldn't test it live from this environment (its network policy blocks
