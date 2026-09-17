@@ -115,15 +115,14 @@ renamed field).
 **If the logs say the push succeeded but no response shows up in
 Qualtrics at all**: the import job's status check only reports whether
 the job itself finished, not whether Qualtrics actually accepted the
-row — a row can be silently dropped with no error surfaced anywhere.
-The CSV now includes the standard system columns every real Qualtrics
-response has (`StartDate`, `EndDate`, `Status`, `Progress`, `Duration`,
-`Finished`, `RecordedDate`), which earlier versions omitted; that's the
-most likely reason a row was getting discarded. While checking this,
-also confirm in Qualtrics's **Data & Analysis** tab that no response
-filter is hiding it (clear any active filter) and that the response
-count at the top of the table changed at all after your test
-submission.
+row — a row can be silently dropped with no error surfaced. Adding the
+standard system columns every real Qualtrics response has (`StartDate`,
+`EndDate`, `Status`, `Progress`, `Duration`, `Finished`,
+`RecordedDate`) surfaced the real reason in a subsequent test: an
+`IMPORTS_307 "The provided date is invalid"` error on `startDate`.
+Fixed now — Qualtrics's CSV import wants a plain `YYYY-MM-DD HH:MM:SS`
+timestamp, not full ISO 8601 (it rejected the milliseconds and
+trailing `Z`).
 
 **Troubleshooting history, in case you see old symptoms after not
 redeploying for a while:**

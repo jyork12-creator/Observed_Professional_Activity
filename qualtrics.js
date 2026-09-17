@@ -123,19 +123,27 @@ async function pollImportJob(progressId, { attempts = 10, delayMs = 1000 } = {})
   throw new Error('Timed out waiting for Qualtrics import job to complete.');
 }
 
+// Qualtrics's CSV import rejects full ISO 8601 timestamps (the
+// millisecond precision and trailing "Z" trip its date parser, per
+// error IMPORTS_307 "The provided date is invalid"). It wants a plain
+// "YYYY-MM-DD HH:MM:SS" — no "T", no milliseconds, no zone suffix.
+function qualtricsDate(isoString) {
+  return isoString.replace('T', ' ').replace(/\.\d+Z$/, '');
+}
+
 // Fire-and-forget from the caller's perspective: resolves/rejects but the
 // HTTP handler does not need to await it before responding to the browser.
 async function pushResponseToQualtrics(row) {
   if (!isConfigured) return;
 
   const rowValues = {
-    StartDate: row.StartDate,
-    EndDate: row.EndDate,
+    StartDate: qualtricsDate(row.StartDate),
+    EndDate: qualtricsDate(row.EndDate),
     Status: 0,
     Progress: 100,
     'Duration (in seconds)': 0,
     Finished: 'True',
-    RecordedDate: row.RecordedDate,
+    RecordedDate: qualtricsDate(row.RecordedDate),
     EPA_Title: row.EPA_Title,
     Entrustment_Level: row.Entrustment_Level,
     Learner_Name: row.Learner_Name,
