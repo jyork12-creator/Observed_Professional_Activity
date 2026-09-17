@@ -6,9 +6,13 @@ const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const DATA_DIR = path.join(__dirname, 'data');
-const EPA_FILE = path.join(DATA_DIR, 'epas.json');
-const RESPONSES_FILE = path.join(DATA_DIR, 'responses.csv');
+const EPA_FILE = path.join(__dirname, 'data', 'epas.json');
+
+// RESPONSES_DIR points at a persistent disk in production (e.g. Render's
+// mounted volume); it defaults to the local data/ folder for local dev.
+const RESPONSES_DIR = process.env.RESPONSES_DIR || path.join(__dirname, 'data');
+const RESPONSES_FILE = path.join(RESPONSES_DIR, 'responses.csv');
+fs.mkdirSync(RESPONSES_DIR, { recursive: true });
 
 // Column definitions mirror a Qualtrics legacy CSV export: row 1 is the
 // field/column name, row 2 is the question text, row 3 is the ImportId

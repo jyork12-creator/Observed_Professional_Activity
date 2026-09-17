@@ -48,10 +48,39 @@ Click "Download all feedback (CSV)" on the page (or visit `/api/export`) to
 download the current file at any time. The file lives only on the machine
 running the server — nothing is sent anywhere else.
 
+## Deploying to Render
+
+This repo includes a `render.yaml` Blueprint that deploys the app as a web
+service with a 1GB persistent disk mounted at `/var/data` (feedback data
+is stored there via the `RESPONSES_DIR` env var, so it survives restarts
+and redeploys — Render's default filesystem is otherwise wiped on every
+deploy).
+
+1. Push this repo to GitHub (already done if you're reading this from the
+   repo) and sign in at https://dashboard.render.com.
+2. Click **New +** → **Blueprint**.
+3. Connect your GitHub account/repo if you haven't already, then select
+   this repository and the branch you want to deploy.
+4. Render detects `render.yaml` and shows the `epa-feedback-app` service
+   it will create, on the **Starter** plan (~$7/month — required for the
+   persistent disk; the free plan does not support disks).
+5. Click **Apply** / **Create**. Render will build (`npm install`) and
+   start (`npm start`) the service.
+6. Once deployed, Render gives you a public URL like
+   `https://epa-feedback-app.onrender.com` — that's your remote link.
+
+To redeploy after future code changes, push to the connected branch;
+Render auto-deploys on push (or trigger it manually from the dashboard).
+
+**Note:** as configured, this app has no login — anyone with the URL can
+view and submit feedback, including the trainee/evaluator names and
+narrative text. Don't post the link anywhere public. If you later want a
+shared password, ask and I can add HTTP basic auth in front of the app.
+
 ## Notes
 
 - This is intentionally a small single-server app (Express + static
-  frontend) with no database and no authentication, meant to be run
-  locally or on a machine you control. If you want to host it somewhere
-  shared, add authentication before exposing it beyond localhost, since
-  anyone who can reach it can read and add feedback.
+  frontend) with no database. Locally it stores data in `data/`; in
+  production it uses the `RESPONSES_DIR` env var (see above) so it can
+  point at a persistent disk instead of the container's ephemeral
+  filesystem.
