@@ -1,0 +1,15 @@
+[
+  {
+    "id": "generic",
+    "title": "Sample EPA (edit me)",
+    "description": "Replace this with the actual Entrustable Professional Activity you are assessing — e.g. its title, the clinical/professional task it covers, and the context in which it is observed (setting, patient population, typical complexity). Everything in this file (data/epas.json) is meant to be edited to match your own program's EPAs; you can add as many EPA entries to this array as you need.",
+    "levels": {
+      "1": "Learner may observe the activity only. Does not perform any part of the task hands-on, even with a supervisor directly present and guiding every step.",
+      "2": "Learner performs the activity with a supervisor physically present in the room, actively directing and coaching through each step in real time (direct supervision).",
+      "3a": "Learner performs the activity with a supervisor immediately available nearby (not necessarily in the room) who proactively checks in at key points (indirect supervision, supervisor proactively engaged).",
+      "3b": "Learner performs the activity with a supervisor available on request (e.g. by phone or page) but not proactively checking in; supervisor is reactively available if the learner asks (indirect supervision, supervisor reactively available).",
+      "4": "Learner performs the activity independently, without a supervisor needing to be immediately available (unsupervised practice).",
+      "5": "Learner is entrusted to supervise or teach more junior learners performing the activity, and can recognize when others need to be pulled back to a lower level of supervision."
+    }
+  }
+]

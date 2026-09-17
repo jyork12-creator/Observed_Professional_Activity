@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPA Observed Feedback</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>EPA Observed Feedback</h1>
+    <p class="subtitle">Record feedback on an observed Entrustable Professional Activity (EPA), then export it to a Qualtrics-ready CSV.</p>
+  </header>
+
+  <main>
+    <section class="card" id="epa-panel">
+      <h2>1. Choose the EPA</h2>
+      <label for="epa-select">EPA</label>
+      <select id="epa-select"></select>
+
+      <div id="epa-description" class="description"></div>
+
+      <h3>What each entrustment level looks like</h3>
+      <div id="levels-table" class="levels-table"></div>
+    </section>
+
+    <section class="card" id="feedback-panel">
+      <h2>2. Record feedback</h2>
+
+      <label for="learner-name">Learner name / ID</label>
+      <input type="text" id="learner-name" placeholder="e.g. Jane Doe / ID 12345">
+
+      <label for="evaluator-name">Your name (evaluator)</label>
+      <input type="text" id="evaluator-name" placeholder="e.g. Dr. Smith">
+
+      <fieldset id="level-fieldset">
+        <legend>Entrustment level observed</legend>
+        <div class="level-options">
+          <label><input type="radio" name="level" value="1"> 1</label>
+          <label><input type="radio" name="level" value="2"> 2</label>
+          <label><input type="radio" name="level" value="3a"> 3a</label>
+          <label><input type="radio" name="level" value="3b"> 3b</label>
+          <label><input type="radio" name="level" value="4"> 4</label>
+          <label><input type="radio" name="level" value="5"> 5</label>
+        </div>
+      </fieldset>
+
+      <label for="feedback-text">Narrative feedback</label>
+      <div class="voice-row">
+        <button type="button" id="voice-btn">🎤 Start voice-to-text</button>
+        <span id="voice-status"></span>
+      </div>
+      <textarea id="feedback-text" rows="8" placeholder="Type feedback here, or use voice-to-text above. You can edit dictated text before submitting."></textarea>
+
+      <div class="actions">
+        <button type="button" id="submit-btn">Submit feedback</button>
+        <span id="submit-status"></span>
+      </div>
+    </section>
+
+    <section class="card" id="export-panel">
+      <h2>3. Export your data</h2>
+      <p>Every submission is appended to a CSV file on this server, formatted so it can be imported directly into Qualtrics (or opened in Excel/Sheets).</p>
+      <a id="export-link" href="/api/export">
+        <button type="button">Download all feedback (CSV)</button>
+      </a>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

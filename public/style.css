@@ -1,0 +1,159 @@
+:root {
+  --bg: #f4f6f8;
+  --card-bg: #ffffff;
+  --text: #1c2530;
+  --muted: #5b6a78;
+  --accent: #2f6f4f;
+  --accent-hover: #24593f;
+  --border: #dde3e8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  padding: 24px 20px 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+.subtitle { color: var(--muted); margin: 0; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 8px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+
+.card h2 { margin-top: 0; font-size: 1.15rem; }
+.card h3 { font-size: 1rem; margin-bottom: 8px; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 4px;
+  font-size: 0.92rem;
+}
+
+select, input[type="text"], textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+textarea { resize: vertical; }
+
+.description {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: #f0f4f1;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.92rem;
+  white-space: pre-wrap;
+}
+
+.levels-table {
+  display: grid;
+  gap: 8px;
+}
+
+.level-row {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  align-items: start;
+}
+
+.level-row .level-badge {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.level-row .level-text {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 14px 0;
+  padding: 10px 14px;
+}
+
+legend { font-weight: 600; font-size: 0.92rem; }
+
+.level-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.level-options label {
+  font-weight: 400;
+  margin: 4px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.voice-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+button:hover { background: var(--accent-hover); }
+
+button.recording {
+  background: #b3423a;
+}
+
+#voice-status, #submit-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#export-link { text-decoration: none; }
