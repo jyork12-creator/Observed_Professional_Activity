@@ -64,9 +64,15 @@ nothing is lost.
   store. It doesn't need real questions — it's just a place to collect
   the embedded data.
 - Open **Survey Flow**, add an **Embedded Data** element (near the top),
-  and add these exact field names:
+  and add these exact field names — spelling and underscores matter,
+  since Qualtrics silently drops any value whose field name doesn't
+  match one defined here:
   `EPA_Title`, `Entrustment_Level`, `Learner_Name`, `Evaluator_Name`,
-  `Gestational_Age`, `Location`, `Feedback_Text`, `Response_Id`.
+  `Gestational_Age`, `Care_Location`, `Feedback_Text`, `Response_Id`.
+  (It's `Care_Location`, not `Location` — Qualtrics reserves `Location`
+  for its own automatic geolocation tracking on every response, so using
+  that name for our field causes it to be shadowed by Qualtrics's own
+  geo data instead of showing what you typed.)
 - Publish the survey.
 
 **2. Gather three values from your Qualtrics account**
@@ -91,10 +97,20 @@ nothing is lost.
 **4. Verify it**
 
 Submit a piece of test feedback through the app, then check:
-- The service logs (Render dashboard → **Logs**) for either
-  `Pushed R_... to Qualtrics.` or a `Qualtrics push failed for R_...`
-  error with details.
-- Your Qualtrics survey's **Data & Analysis** tab for the new response.
+- The service logs (Render dashboard → **Logs**) for a
+  `Qualtrics push payload: {...}` line (the exact data sent) followed by
+  either `Pushed R_... to Qualtrics.` or a `Qualtrics push failed for
+  R_...` error with details.
+- Your Qualtrics survey's **Data & Analysis** tab for the new response —
+  compare each field there against the logged payload. If a field is
+  blank in Qualtrics but present in the log, its name doesn't match the
+  Embedded Data element exactly (check for typos, spaces vs underscores,
+  or case differences).
+
+**If you already have a survey set up with the old `Location` field
+name**: rename that Embedded Data field to `Care_Location` in Survey
+Flow (existing responses keep their data; new ones will populate the
+renamed field).
 
 If it fails, send me the logged error and I'll adjust the integration —
 I built this against Qualtrics's documented Import Responses API but

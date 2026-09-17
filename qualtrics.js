@@ -7,7 +7,11 @@
 // The target survey must have an Embedded Data element (Survey Flow) with
 // these exact field names, or Qualtrics will silently ignore unknown
 // fields: EPA_Title, Entrustment_Level, Learner_Name, Evaluator_Name,
-// Gestational_Age, Location, Feedback_Text, Response_Id.
+// Gestational_Age, Care_Location, Feedback_Text, Response_Id.
+//
+// Note: the field is named Care_Location (not "Location") to avoid
+// colliding with Qualtrics's own reserved location-tracking metadata,
+// which every response carries regardless of what we send.
 
 const DATACENTER = process.env.QUALTRICS_DATACENTER;
 const API_TOKEN = process.env.QUALTRICS_API_TOKEN;
@@ -30,6 +34,8 @@ async function startImportJob(embeddedData) {
       },
     ],
   });
+
+  console.log('Qualtrics push payload:', JSON.stringify(embeddedData));
 
   const form = new FormData();
   form.append('file', new Blob([fileContents], { type: 'application/json' }), 'response.json');
@@ -85,7 +91,7 @@ async function pushResponseToQualtrics(row) {
     Learner_Name: row.Learner_Name,
     Evaluator_Name: row.Evaluator_Name,
     Gestational_Age: row.Gestational_Age,
-    Location: row.Location,
+    Care_Location: row.Location,
     Feedback_Text: row.Feedback_Text,
     Response_Id: row.ResponseId,
   };
